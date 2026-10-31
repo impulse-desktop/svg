@@ -206,6 +206,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `lighting-box-depth-scale-range.svg` | The finite box-relative depth maps the overhead light to z=1; tiling its single green sample fills the 16px square. | All 256 pixels turn opaque black. | `filterLighting` squares the box sides in float when scaling light z; 2^200 overflows before the reciprocal authored depth can cancel it. |
 | `css-transform-svg-separators.svg` | Both invalid CSS transform values are discarded, leaving the two green squares at their authored positions. | The first square moves by (8,8), the second by (8,0), leaving 640 wrong pixels. | `transformFunctions` uses SVG's optional argument commas and comma-separated functions even with TransformGrammar::Declaration. |
 | `xml-empty-processing-target.svg` | An instruction without its required XML target makes the embedded image invalid. | The invalid resource draws all 256 green pixels. | `parseContent` advances past the processing-instruction terminator without reading or validating a PITarget. |
+| `affine-inverse-determinant-range.svg` | Both finite, invertible paint maps retain their constant lime gradients. | Both squares use the red fallback, 512 wrong pixels. | `invert` forms a*d-b*c directly in double; determinants 2^1200 and 2^-1200 become infinity and zero, so singularTransform rejects maps whose inverse coefficients remain finite. |
+| `embedded-svg-context-paint-leak.svg` | The image's separate document has no context element, so its context-fill rectangle paints nothing. | All 256 green pixels appear. | `drawImage` switches documents without clearing hasContext and the outer context paints; computeStyle resolves the inner rectangle against the surrounding use. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -2014,6 +2016,41 @@ expectation and all three green controls. The instruction sits inside
 metadata, with no declarations or entities. This tests the required
 instruction target independently of prolog declaration count, comment-body
 restrictions and character-code validation.
+
+The inverse follows [gradient transforms](../../dev/spec/svg2/pservers.md#LinearGradientElementGradientTransformAttribute),
+[deferred range checking](../../dev/spec/svg2/types.md#RangeClamping)
+and D18's double-precision coordinate transforms. Six authored scales of
+2^100 give diag(2^600,2^600), and six scales of 2^-100 give its inverse.
+All input values are finite normal floats; both composed matrices and
+their inverse coefficients are finite doubles. Their determinants alone
+lie outside double's exponent range. Neither map is singular. Each pad
+gradient has two identical opaque lime stops, so every sample is lime
+regardless of its parameter. Reducing both lists to five scale factors
+gives an exact control. Four factors also match exactly. Replacing both
+lists with scale(1) is a third exact control. Removing only the second
+identical stop gives a fourth exact control at the original transforms,
+using D8's one-stop rule. The debugger records coefficients
+4.1495155688809874e180 with det=Inf and 2.4099198651028873e-181 with det=0.
+The geometry consists of two ordinary 16px squares; there is no large
+raster, layer, subdivision or work budget. This tests the common affine
+inverse's intermediate range independently of vector-effect determinant
+narrowing, resource length contexts, box spans and projective weights.
+
+The boundary follows [image's separate document tree](../../dev/spec/svg2/embedded.md#ImageElement)
+and [the definition of a context element](../../dev/spec/svg2/painting.md#context-paint).
+The outer use supplies lime to its own shadow subtree, which contains
+the image element. The referenced image creates its own document; its
+rectangle is inside no marker or use instance. Its explicit context-fill
+therefore paints nothing. Replacing the outer use with a direct image at
+(8,8) gives an exact empty control. Keeping the use but changing its fill
+to none is another exact empty control. Giving the inner rectangle a
+literal lime fill gives an exact green control, preserving both documents
+and the outer use. Resvg matches the original empty expectation and all
+three controls. At the inner context-fill branch, the debugger records
+imageDepth=1, hasContext=true and an opaque lime contextFill. No effects
+are specified on the embedded root. This tests paint-context isolation
+across image documents independently of skipped root effects, creation
+of feImage's context and frame retention within recursive contexts.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
