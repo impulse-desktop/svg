@@ -208,6 +208,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xml-empty-processing-target.svg` | An instruction without its required XML target makes the embedded image invalid. | The invalid resource draws all 256 green pixels. | `parseContent` advances past the processing-instruction terminator without reading or validating a PITarget. |
 | `affine-inverse-determinant-range.svg` | Both finite, invertible paint maps retain their constant lime gradients. | Both squares use the red fallback, 512 wrong pixels. | `invert` forms a*d-b*c directly in double; determinants 2^1200 and 2^-1200 become infinity and zero, so singularTransform rejects maps whose inverse coefficients remain finite. |
 | `embedded-svg-context-paint-leak.svg` | The image's separate document has no context element, so its context-fill rectangle paints nothing. | All 256 green pixels appear. | `drawImage` switches documents without clearing hasContext and the outer context paints; computeStyle resolves the inner rectangle against the surrounding use. |
+| `filter-invalid-subregion-size.svg` | An invalid primitive width or height takes its initial 100%; both clipped flood regions remain lime. | Both squares disappear, 512 missing pixels. | `lowerFilter` detects attribute presence, then replaces its parse failure by zero rather than the initial subregion size. |
+| `xml-chardata-cdata-close.svg` | The raw CDATA close delimiter in ordinary character data makes the image invalid. | The invalid resource draws all 256 green pixels. | The ordinary-data loop in `parseContent` stops at less-than or ampersand, without rejecting a raw CDATA close delimiter. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -2051,6 +2053,37 @@ imageDepth=1, hasContext=true and an opaque lime contextFill. No effects
 are specified on the embedded root. This tests paint-context isolation
 across image documents independently of skipped root effects, creation
 of feImage's context and frame retention within recursive contexts.
+
+The sizes follow [primitive width's initial 100%](../../dev/spec/filter-effects-1.md#element-attrdef-filter-primitive-width),
+[height's initial 100%](../../dev/spec/filter-effects-1.md#element-attrdef-filter-primitive-height),
+[primitive subregions](../../dev/spec/filter-effects-1.md#FilterPrimitiveSubRegion)
+and [invalid nonpresentation attributes](../../dev/spec/svg2/types.md#syntax),
+as recorded in D16. A failed length is not a valid zero size: zero
+disables the primitive, while its initial size covers the entire filter
+region here. Removing both malformed attributes matches exactly.
+Replacing them with 100% also matches exactly, as does using 16px.
+Replacing them with valid zero instead matches an independent empty
+drawing exactly. Resvg agrees with the original expectation and all four
+controls. The two ordinary flood primitives use no input images, font
+units, math, CSS geometry declarations or inherited size. This tests
+parse-failure recovery in primitive subregion sizes independently of
+image auto sizing and unresolved relative calculations.
+
+The delimiter follows [XML character data and markup](https://www.w3.org/TR/xml/#syntax),
+in particular production 14, which excludes a raw CDATA close delimiter
+from ordinary character data. All three constituent characters are
+individually legal. A well-formed SVG image is required by
+[viewer conformance](../../dev/spec/svg2/conform.md#ConformingSVGViewers).
+The malformed sequence occurs in metadata before the rectangle; the
+outer SVG is well formed and renders no text. Escaping only the greater
+than sign as `&gt;` gives an exact green control. Splitting the same
+decoded data between two adjacent CDATA sections also gives an exact
+green control, as does removing the metadata's content. Python
+ElementTree rejects the original decoded image and accepts all three
+controls; resvg matches the empty expectation and every control exactly.
+This tests ordinary character data's reserved sequence independently of
+individual forbidden code points, comment-body grammar and instruction
+targets. No declaration, entity definition or namespace error is present.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.

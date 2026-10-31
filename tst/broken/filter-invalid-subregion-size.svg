@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="bad-width" filterUnits="userSpaceOnUse"
+            x="8" y="8" width="16" height="16">
+      <feFlood width="not-a-length" flood-color="lime"/>
+    </filter>
+    <filter id="bad-height" filterUnits="userSpaceOnUse"
+            x="40" y="8" width="16" height="16">
+      <feFlood height="not-a-length" flood-color="lime"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" filter="url(#bad-width)"/>
+  <rect x="40" y="8" width="16" height="16" filter="url(#bad-height)"/>
+</svg>
