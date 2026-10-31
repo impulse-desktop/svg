@@ -236,6 +236,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-radial-ellipse-aspect-range.svg` | Both finite ellipse masks become 64px circles under their transforms and retain their central green squares. | Both squares disappear, 512 missing pixels. | `cssGradientPaint` forms ry/rx in float; the zero or infinite aspect scale makes inversion fail and selects the transparent last-stop fallback. |
 | `turbulence-invalid-frequency.svg` | Invalid frequency syntax takes the initial zero frequency; fractal noise has alpha 1/2 and the following matrix produces opaque lime. | Both squares disappear, 512 missing pixels. | `filterTurbulence` returns on a failed numberPair parse instead of continuing with its initialized zero frequencies. |
 
+| `viewbox-size-cancellation.svg` | Both viewBoxes have positive unit sizes inside their filled rectangles, so both 16px viewports are green. | Both viewports disappear, 512 missing pixels. | `parseViewBoxText` stores min+size as a box endpoint; adding 1 to 2^80 loses the authored extent in double, and lowerViewport rejects the resulting zero span. |
+| `viewbox-negative-math-size.svg` | Calculated negative viewBox sizes clamp to zero and disable the two nested viewports. | Both viewports paint green, 512 extra pixels. | `parseViewBoxText` applies literal-negative rejection after listNumber loses math provenance; it discards the viewBox instead of retaining a zero computed size. |
+
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
 Font-relative geometry follows [CSS font-relative units](../../dev/spec/css-values-4.md#font-relative-lengths),
@@ -2489,3 +2492,47 @@ matches the original's expected result exactly. A debug render confirms both syn
 initialized fx=fy=0. They take the same early return and share one fixture. This does not exercise
 integer rounding, seed range, bounding-box coordinates or existing
 lighting/convolution defaulting branches.
+
+The viewBox size-cancellation case follows
+[viewBox's independent origin and size fields](../../dev/spec/svg2/coords.md#ViewBoxAttribute)
+and [the equivalent viewport transform](../../dev/spec/svg2/coords.md#ComputingAViewportsTransform).
+Each authored width and height is exactly 1, and each nonzero origin is
+exactly 2^80; all are normal finite floats. One source rectangle covers
+[0,2^85]x[0,1], the other [0,1]x[0,2^85]. Their viewBoxes lie wholly
+within these rectangles, so each 16x16 viewport must be opaque lime.
+The transform algorithm divides by the independent authored sizes and
+never requires adding the origin to its size. The implementation instead
+encodes each rectangle as endpoints; double(2^80+1) equals 2^80, which
+later looks like a genuinely disabled zero-width or zero-height viewBox.
+A debug render confirms the authored (1,1) sizes become stored spans
+(0,1) and (1,0) respectively.
+Moving the origins to 2^40 gives the literal reference exactly. Keeping
+the original origins but increasing just the corresponding size to 2^30
+also matches exactly; preserveAspectRatio=none retains the full orthogonal
+axis. Moving each original origin into an equal negative rectangle
+translation, with a unit viewBox at the origin, is another exact control.
+The rectangles have four straight edges and all computed device
+coordinates remain finite; no flattening or paint budget is exhausted.
+No curve extrema or derived object-bounding-box float span is involved.
+This is loss of an independently authored positive size during endpoint
+storage, separate from matrix inversion and basic-shape float narrowing.
+Resvg does not reliably render these large-coordinate drawings and is
+not used as an oracle.
+
+The negative math viewBox-size case follows
+[viewBox's size restrictions and zero-size behavior](../../dev/spec/svg2/coords.md#ViewBoxAttribute)
+and [numeric-function range clamping](../../dev/spec/css-values-4.md#functional-numeric),
+also explicitly adopted for viewBox by D30. A negative literal makes the
+attribute invalid, but a negative calculation in that restricted context
+clamps to zero. A zero viewBox width or height disables its element, so
+both expected cells are empty. The list parser returns only the number;
+parseViewBoxText then rejects it as if it were a negative literal. The
+initial absent viewBox leaves the ordinary 16px coordinates in effect,
+which paints both squares. A debug render confirms rejection of sizes
+(-1,16) and (16,-1) after the calculation has been evaluated. Replacing
+both calculations by literal zero
+or by calc(0) gives the empty reference exactly. Replacing them by literal
+-1 correctly gives two opaque lime squares, an independent control of the
+invalid-attribute fallback. This tests number-list math range handling,
+not size-storage precision, restricted CSS filter lengths, dash lengths
+or a gradient radius's separate length parser.
