@@ -224,6 +224,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `convolve-invalid-target-range.svg` | Invalid convolution targets take their central initial value, so both identity kernels retain their green squares. | Both squares disappear, 512 missing pixels. | `filterConvolve` returns without drawing for an out-of-range target instead of using floor(order/2). |
 | `css-round-quotient-underflow.svg` | Rounding a positive tiny number up, or a negative tiny number down, to a finite large step gives opacity exactly 1 after normalization. | Both squares disappear, 512 missing pixels. | `mathRound` divides before floor/ceil; a finite nonzero quotient underflows to zero, and the equal-multiples branch returns the original argument. |
 
+| `rounded-polygon-edge-length-range.svg` | Half-side corner radii turn both scaled squares into 64px circles; both 8px corner samples are empty. | Both samples fill with lime, 128 extra opaque pixels. | `shapeClip` computes polygon edge lengths with sqrtf of squared coordinates, making finite lengths zero or infinity and losing the corner tangencies. |
+| `xinclude-discarded-fallback-style.svg` | A successful inclusion discards its fallback, so the square keeps its lime fill. | All 256 pixels turn red. | `parseElement` promotes XHTML style elements even while parsing a successfully replaced include subtree with foreign=true. |
+
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
 Font-relative geometry follows [CSS font-relative units](../../dev/spec/css-values-4.md#font-relative-lengths),
@@ -2314,3 +2317,43 @@ step, or replacing the directed rounding by its exact signed step all gives
 the opaque reference exactly. The same root cause covers positive/up and
 negative/down; neither rendering work limits nor filter coefficient
 quantization are involved.
+
+The rounded-polygon edge-length case follows
+[polygon() rounding](../../dev/spec/css-shapes-1.md#funcdef-basic-shape-polygon).
+Each square has side W and radius W/2, exactly the permitted corner limit
+for its 90-degree vertices. After the scale it is a circle of radius 32,
+centered 32px from the square's top and left. The entire sampled 8x8 corner
+is outside it: even the sample's closest point has distance 24*sqrt(2)>32.
+The small source uses W=2^-80 and scale 2^86; the large one uses W=2^80 and
+scale 2^-74. All authored nonzero lengths and scales are normal finite
+floats. Their true edge lengths and reciprocal scales are finite, and the
+device geometry is only 64px. The implementation passes each squared
+length to sqrtf before taking its root; 2^-160 becomes zero and 2^160
+becomes infinity. The first path loses its rounding radius, while the
+second loses its tangent displacements. A debug render confirms all four
+edge pairs as (0,0) for the small polygon and (infinity,infinity) for the
+large polygon. Both become squares. Controls
+normalize W to 1 and scale to 64; reduce the exponents to +/-60 with
+compensating scales; or replace each polygon by inset(0 round W/2).
+All give the empty reference exactly. Removing rounding gives two exact
+8x8 green samples. There is no large flattened curve or exhausted work
+limit. This is separate from inset()'s radius-reduction factor underflow,
+normalized percentage diagonals, and paint/filter transform norms.
+
+The discarded-fallback style case follows
+[XInclude's fallback rules](https://www.w3.org/TR/xinclude/#fallback)
+and [result infoset construction](https://www.w3.org/TR/xinclude/#creating-result).
+The data URL successfully supplies a well-formed empty SVG group; the
+include and all its descendants are replaced by that group. No fallback
+content belongs to the resulting document. Python's independent XInclude
+processor confirms that the resulting infoset contains only that group
+and the lime rectangle, with no style element. The renderer instead
+promotes the XHTML style to the surrounding SVG while skipping the unused
+fallback. A debug render enters that promotion with foreign=true and no
+fallback context. Removing the fallback, or changing its XHTML style to SVG style,
+restores the literal green reference exactly. Making the resource
+unavailable activates that same fallback and correctly yields a literal
+red control. D47 permits a connected XHTML style in a retained foreign
+subtree; it does not retain content discarded by XInclude. This is
+separate from foreign sibling selection, XInclude text decoding/language
+fixup and preferred-sheet eligibility.

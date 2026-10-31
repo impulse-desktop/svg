@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xi="http://www.w3.org/2001/XInclude"
+     xmlns:html="http://www.w3.org/1999/xhtml" width="32" height="32">
+  <xi:include href="data:application/xml,%3Cg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%2F%3E">
+    <xi:fallback>
+      <html:style>rect { fill: red }</html:style>
+    </xi:fallback>
+  </xi:include>
+  <rect x="8" y="8" width="16" height="16" fill="lime"/>
+</svg>
