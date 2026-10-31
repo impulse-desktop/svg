@@ -239,6 +239,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `viewbox-size-cancellation.svg` | Both viewBoxes have positive unit sizes inside their filled rectangles, so both 16px viewports are green. | Both viewports disappear, 512 missing pixels. | `parseViewBoxText` stores min+size as a box endpoint; adding 1 to 2^80 loses the authored extent in double, and lowerViewport rejects the resulting zero span. |
 | `viewbox-negative-math-size.svg` | Calculated negative viewBox sizes clamp to zero and disable the two nested viewports. | Both viewports paint green, 512 extra pixels. | `parseViewBoxText` applies literal-negative rejection after listNumber loses math provenance; it discards the viewBox instead of retaining a zero computed size. |
 
+| `clip-intersection-subpixel-coverage.svg` | The two clip regions are separated by positive gaps and have an empty intersection, so nothing is painted. | All 256 sampled pixels retain alpha 16. | `runProgram` rasterizes each group clip separately, then multiplies its coverage into the already clipped child image through factorRow/scaleSpan, losing spatial correlation. |
+| `mask-position-translated-origin.svg` | The mask starts 4px into the fill box and keeps the 8px green band at x=12..20. | The band moves to x=8..16, leaving 128 wrong pixels. | `drawLayer` narrows start+offset to its float origin array before the double CTM cancels the large fill-box origin. |
+
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
 Font-relative geometry follows [CSS font-relative units](../../dev/spec/css-values-4.md#font-relative-lengths),
@@ -2536,3 +2539,47 @@ or by calc(0) gives the empty reference exactly. Replacing them by literal
 invalid-attribute fallback. This tests number-list math range handling,
 not size-storage precision, restricted CSS filter lengths, dash lengths
 or a gradient radius's separate length parser.
+
+The clip-intersection coverage case follows
+[cumulative intersection of ancestor clipping regions](../../dev/spec/css-masking-1.md#clipping-paths).
+For k=8..23 the ancestor clip contains only [k,k+1/4] and the child clip
+only [k+5/8,k+7/8], both over y=8..24. There is a positive gap of at
+least 1/8px between every adjacent pair, including across pixel boundaries,
+so their intersection is empty. Both separately integrated masks cover 1/4 of
+every pixel. Multiplying those coverage values gives 1/16 rather than the
+integral of their pointwise intersection, which is zero. The original
+therefore paints alpha 16 in every sampled pixel. A debug render confirms
+clip coverage 16384/65535 applied first to source alpha 65535 and then to
+the already clipped source alpha 16384. Removing either clip
+matches a literal 16px square of opacity 1/4 exactly in ours and resvg.
+Replacing both patterns by alternating disjoint one-pixel stripes gives
+the empty reference exactly in both renderers. Resvg shares the original
+coverage-product approximation and is not used as an oracle. Each clip
+has one path; no clip-child union occurs. This tests nested intersection
+through runProgram's layer multiplication, independently of the sibling
+union's maximum operation. There are only two paths with 64 nonhorizontal
+clip edges, no curves or effects, and no exhausted work budget. Other
+losses of coverage correlation at clip intersections belong to this case.
+
+The translated mask position follows
+[mask positioning](../../dev/spec/css-masking-1.md#the-mask-position)
+and [the positioning area](../../dev/spec/css-masking-1.md#the-mask-origin).
+The fill box starts at the exact normal float 2^28, and the separately
+authored translations by -2^28 and (8,8) put it at (8,8) through a finite
+double CTM. The white mask is 8px wide and 16px high, positioned 4px from
+the fill box's left edge. Its correct device bounds are x=12..20, y=8..24.
+Every authored nonzero number is exactly representable as a normal float;
+only the derived placement 2^28+4 needs more precision. drawLayer keeps
+the area's start in double, then stores start+offset in a float origin,
+which rounds back to 2^28 before the CTM can cancel it. A debug render
+confirms start=268435456, offset=4, stored origin=268435456 and CTM
+translation=-268435448. Normalizing the
+source origin and its compensating translation to zero matches exactly.
+Reducing both origins to +/-2^20 is another exact control. Keeping the
+original geometry but moving the offset into a full-size mask image,
+with transparent 0..25%, white 25..75% and transparent 75..100%, also
+matches the same literal band exactly. No SVG pattern, basic-shape clip,
+image natural sizing or fragment is involved: this is the CSS image
+placement path, separate from patternPaint's tile-origin narrowing and
+basic-shape coordinate construction. There are no fractional device
+edges or exhausted work limits.

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+  <defs>
+    <clipPath id="left-quarters">
+      <path d="M8 8h.25v16h-.25z M9 8h.25v16h-.25z M10 8h.25v16h-.25z M11 8h.25v16h-.25z M12 8h.25v16h-.25z M13 8h.25v16h-.25z M14 8h.25v16h-.25z M15 8h.25v16h-.25z M16 8h.25v16h-.25z M17 8h.25v16h-.25z M18 8h.25v16h-.25z M19 8h.25v16h-.25z M20 8h.25v16h-.25z M21 8h.25v16h-.25z M22 8h.25v16h-.25z M23 8h.25v16h-.25z"/>
+    </clipPath>
+    <clipPath id="right-quarters">
+      <path d="M8.625 8h.25v16h-.25z M9.625 8h.25v16h-.25z M10.625 8h.25v16h-.25z M11.625 8h.25v16h-.25z M12.625 8h.25v16h-.25z M13.625 8h.25v16h-.25z M14.625 8h.25v16h-.25z M15.625 8h.25v16h-.25z M16.625 8h.25v16h-.25z M17.625 8h.25v16h-.25z M18.625 8h.25v16h-.25z M19.625 8h.25v16h-.25z M20.625 8h.25v16h-.25z M21.625 8h.25v16h-.25z M22.625 8h.25v16h-.25z M23.625 8h.25v16h-.25z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#left-quarters)">
+    <rect x="8" y="8" width="16" height="16" fill="lime"
+          clip-path="url(#right-quarters)"/>
+  </g>
+</svg>
