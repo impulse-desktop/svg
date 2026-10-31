@@ -21,7 +21,8 @@ The checker uses `tst/oracle.py` and its usual two-level premultiplied RGBA
 tolerance. It exits 1 while differences remain, writes cell reports to
 `.build/broken/`, and reports a case as PASS once it matches. These known
 failures are separate from the passing `unit`/`tests` build groups.
-The implicit-circle radial case can crash before producing pixels, and
+The implicit-circle radial and stroke-half-width underflow cases can crash
+before producing pixels, and
 the dash-period overflow case hangs until the oracle's existing 60-second
 renderer timeout. The checker reports these process failures instead of
 cell reports and continues with the remaining cases.
@@ -241,6 +242,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 
 | `clip-intersection-subpixel-coverage.svg` | The two clip regions are separated by positive gaps and have an empty intersection, so nothing is painted. | All 256 sampled pixels retain alpha 16. | `runProgram` rasterizes each group clip separately, then multiplies its coverage into the already clipped child image through factorRow/scaleSpan, losing spatial correlation. |
 | `mask-position-translated-origin.svg` | The mask starts 4px into the fill box and keeps the 8px green band at x=12..20. | The band moves to x=8..16, leaving 128 wrong pixels. | `drawLayer` narrows start+offset to its float origin array before the double CTM cancels the large fill-box origin. |
+
+| `stroke-half-width-underflow.svg` | A positive subnormal stroke becomes a 16px square under three finite power-of-two scales. | The renderer exits with SIGSEGV before producing pixels. | `strokePath` halves the positive float width to zero; flatten omits stroke directions, which strokePath then accesses unconditionally. |
+| `xml-unparsed-entity-reference.svg` | A content reference to an unparsed NDATA entity makes the embedded document malformed, leaving the image empty. | The invalid image draws all 256 green pixels. | `parseEntity` records only external=true and discards the NDATA distinction; parseContent silently skips the reference as an ordinary external entity. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -2583,3 +2587,46 @@ image natural sizing or fragment is involved: this is the CSS image
 placement path, separate from patternPaint's tile-origin narrowing and
 basic-shape coordinate construction. There are no fractional device
 edges or exhausted work limits.
+
+The stroke-half-width case follows
+[SVG's finite single-precision input requirement](../../dev/spec/svg2/types.md#Precision)
+and [positive stroke widths](../../dev/spec/svg2/painting.md#StrokeWidthProperty).
+The source endpoint and stroke width are 2^-149, the smallest positive
+binary32 subnormal, which this host supports and the parser retains.
+Each scale is the exactly representable normal float 2^51; their composite
+2^153 is finite in the double CTM. The device line runs from (8,16) to
+(24,16) with width 16 and butt caps, hence the literal 16px square.
+strokePath divides the stored width by two in float, yielding zero.
+flatten consequently produces no stroke kinds or directions; strokePath's
+first-direction bookkeeping nevertheless accesses the empty directions
+array. Both optimized and debug renderers terminate with SIGSEGV. A
+debug render confirms stored width=1.40129846e-45, half=0 and the fault
+at flat.dirs.mut(begin). An unscaled ordinary line with the same tiny
+width also crashes with scale=1 and normal tolerance, confirming that
+the direction-array fault is independent of the large-scale norm.
+Replacing the source length and width by 2^-120 and compensating with
+scales whose product is 2^124 gives the literal square exactly.
+Source length/width 1 with a total scale of 16 is another exact control.
+Setting the original width to zero gives an empty drawing without a
+crash. There are no curves, dashes or exhausted subdivision budgets.
+This is half-width underflow and missing stroke-array initialization,
+separate from segment-length overflow, miter growth and transform norms.
+
+The unparsed-entity reference follows XML's
+[Parsed Entity well-formedness constraint](https://www.w3.org/TR/xml/#textent)
+and [forbidden references](https://www.w3.org/TR/xml/#forbidden).
+The internal DTD declares a notation and an external entity with NDATA.
+Its name is then used in a content entity reference inside metadata.
+That reference is a fatal error, regardless of whether the processor
+loads external entities; its unparsed classification is available in the
+internal declaration. No external resource needs to be fetched to detect
+the error. parseEntity discards the NDATA suffix without storing the
+entity type. parseContent sees external=true and skips the reference,
+then accepts the green rectangle. Python's independent XML parser rejects
+the decoded document with 'reference to binary entity'. Removing the
+reference, escaping its ampersand, or replacing the declaration by an
+empty internal parsed entity each produces the literal green square
+exactly in ours and resvg. Resvg rejects the original and matches the
+empty expectation. This tests the missing unparsed-entity classification
+and reference guard, separate from EntityValue literal syntax, ignored
+attribute references and character-reference validity.
