@@ -202,6 +202,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `dash-stationary-newton.svg` | The only painted dash is a 4x8 green rectangle. | It extends to about 32.71px instead of 4px, leaving 232 wrong pixels. | `lengthParameter` stops after four Newton iterations from a poor initial estimate near a stationary cubic endpoint, without checking the remaining length error. |
 | `pattern-bbox-translated-origin.svg` | The quarter-box offset places green 8px bands at x=16 and x=32 after translation cancellation. | Green and transparent bands swap, leaving 512 wrong pixels. | `patternPaint` stores bbox.x0 + x*bw in float, losing the 8px tile offset at 2^28 before composing its placement with the cancelling CTM. |
 | `fe-image-context-paint.svg` | An element rendered as a use by feImage resolves context-fill to the primitive's lime fill. | All 256 expected pixels disappear. | `lowerImageContent` passes the primitive's style to the target but omits the paint-context setup in lowerUse, leaving hasContext false. |
+| `clip-child-vector-effect.svg` | The clip child's non-scaling-size cancels its uniform scale, retaining the 16px square at (8,8). | A 32px square clips at (16,16), leaving 1,152 wrong pixels. | `clipChild` composes boxTransform but omits the vectorEffectMatrix adjustment used for ordinary shapes; resolveClip passes that unadjusted matrix to addClipShape. |
+| `lighting-box-depth-scale-range.svg` | The finite box-relative depth maps the overhead light to z=1; tiling its single green sample fills the 16px square. | All 256 pixels turn opaque black. | `filterLighting` squares the box sides in float when scaling light z; 2^200 overflows before the reciprocal authored depth can cancel it. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -1948,6 +1950,40 @@ variable case cannot account for this result. Resvg also loses the
 original and does not implement the inheritance control, so it is not
 the oracle. This tests creation of the initial paint context independently
 of variable substitution and loss of a frame across recursive contexts.
+
+The clip follows [vector-effect's constrained coordinate system](../../dev/spec/svg2/coords.md#VectorEffectsCalculation),
+[clip child geometry](../../dev/spec/css-masking-1.md#ClipPathElement)
+and D3's output-pixel host. For scale(2), det(CTM)=4 and
+non-scaling-size divides the linear part by sqrt(4), leaving identity.
+The clip therefore retains the 16x16 square at (8,8). This affects the
+child's coordinate system, independently of stroke paint, which a clip
+ignores. Removing scale(2) gives an exact control. Changing it to scale(1)
+is another exact control. Drawing the same scaled, non-scaling-size
+rectangle directly with lime fill, outside a clip, also matches exactly.
+The debugger records vectorEffects=1 but item.space=scale(2) immediately
+before addClipShape. No use instance, nested clip, basic-shape clip or
+conditional processing is involved. This tests omitted constrained
+transform processing on clip children independently of resource
+individual transforms, determinant range and non-scaling use positions.
+
+The depth follows [point-light coordinates](../../dev/spec/filter-effects-1.md#fePointLightElement),
+[diffuse lighting](../../dev/spec/filter-effects-1.md#feDiffuseLightingElement)
+and [the normalized diagonal](../../dev/spec/svg2/coords.md#Units_viewport_percentage).
+Let N=2^100. The source box is N by N, transformed to a single device
+pixel at (8,8). The light's x=y=.5 places it exactly above that pixel's
+center; its authored z=1/N becomes z=1 because the square box's normalized
+diagonal is N. surfaceScale=0 makes the normal (0,0,1), so the diffuse
+result is opaque lime. feTile repeats this one-pixel primitive over
+the 16x16 filter output. Replacing N by 1, together with the corresponding
+filter dimensions and reciprocal scale/depth, gives an exact control.
+N=2^40 and N=2^60 are two more exact controls. The debugger records
+normal=(0,0,1), exact zero x/y differences to the light and lightPosition.z=Inf
+before normalize3 runs. A finite correctly scaled vector would be (0,0,1);
+its normalization needs no large intermediate. This tests overflow in
+the box-to-user depth conversion independently of normalization of a
+finite large light vector, surface-height units, viewport percentage
+lengths and filter operating-axis norms. Only one lighting sample and
+a 16x16 output plane are needed; no allocation or work limit is reached.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
