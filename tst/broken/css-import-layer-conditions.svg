@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <style>
+    @import url("none.css") layer(last-print) print;
+    @import url("none.css") layer(last-width) (min-width: 128px);
+    @layer first-print { #print { fill:red } }
+    @layer last-print { #print { fill:lime } }
+    @layer first-width { #width { fill:red } }
+    @layer last-width { #width { fill:lime } }
+  </style>
+  <rect id="print" x="8" y="8" width="16" height="16" fill="red"/>
+  <rect id="width" x="40" y="8" width="16" height="16" fill="red"/>
+</svg>

@@ -230,6 +230,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xml-entity-value-percent.svg` | A raw percent sign that is not a parameter-entity reference makes the embedded document malformed, so the image is empty. | The invalid image draws all 256 green pixels. | `parseEntity` sends its quoted value to expandCharacterReferences without validating EntityValue syntax. |
 | `convolve-default-divisor-range.svg` | Both finite kernels normalize to weights (1/2,1/2), retaining the two constant green squares. | Both squares disappear, 512 missing pixels. | `filterConvolve` narrows the double kernel sum +/-2^128 to float infinity before dividing the finite coefficients by it. |
 
+| `css-import-url-arguments.svg` | The invalid two-string URL makes the import invalid, so the later lime layer wins. | The 256-pixel square turns red. | `importLayer` accepts any url() function token without validating its arguments before registering the layer. |
+| `css-import-layer-conditions.svg` | Imports whose media conditions are false do not register their layers; both later lime layers win. | Both squares turn red, 512 wrong pixels. | `importLayer` registers layers without examining the import conditions after the layer argument. |
+
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
 Font-relative geometry follows [CSS font-relative units](../../dev/spec/css-values-4.md#font-relative-lengths),
@@ -2401,3 +2404,40 @@ threshold is involved. This differs from the default divisor tolerance
 case and from fixedCoefficient/fixSum errors: the correct weights are
 small and exactly representable, and are lost before fixed-point lowering.
 Both signs exercise the same premature narrowing and share one fixture.
+
+The import URL-arguments case follows
+[the import grammar](../../dev/spec/css-cascade-5.md#at-ruledef-import),
+[the URL grammar](../../dev/spec/css-values-4.md#url-value) and
+[URL modifier types](../../dev/spec/css-values-4.md#typedef-url-modifier).
+The quoted url() function accepts one string followed by URL modifiers;
+a second string is not a modifier and makes this URL invalid. The first
+rule therefore cannot declare the last layer. The subsequent first/last
+blocks place their layers in that order, and last's lime declaration wins.
+The renderer instead skips over the complete function token without
+checking its arguments, placing last before first and making red win.
+Removing the invalid import, or changing its layer argument to first,
+gives the literal green reference exactly. Removing only the second URL
+string makes a valid import and correctly gives a literal red control.
+There is no preceding rule to affect import-prefix eligibility; this is
+separate from the invalid-rule prefix case. The URL argument validation
+also belongs to a different path from property declaration validation.
+
+The conditional import-layer case follows
+[conditional layer registration](../../dev/spec/css-cascade-5.md#at-ruledef-import)
+and [conditional imports](../../dev/spec/css-cascade-5.md#conditional-import).
+Although a failed stylesheet load still declares its layer, the layer
+registration itself is subject to the import conditions, just as an
+@layer statement inside the corresponding @media block would be. The
+renderer targets screen, and the document is 64px wide; print and
+(min-width: 128px) are both false. Neither import may predeclare its last
+layer, so the later blocks make the lime layers win. The renderer's
+importLayer never inspects either condition and predeclares both layers.
+Removing the imports or expressing those exact conditional declarations
+as @media blocks gives the green reference exactly. Changing print to
+screen and min-width to max-width makes both conditions true and
+correctly gives two literal red squares. These are valid simple media
+queries already evaluated correctly by the renderer's @media path, not
+unknown features or invalid query values. D15's deliberate lack of
+stylesheet fetching is preserved: no imported declarations are needed.
+The URL-arguments and conditional-layer tests exercise independent checks;
+correcting one does not remove the other's failure.
