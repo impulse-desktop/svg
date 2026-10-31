@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="80">
+  <defs>
+    <clipPath id="wide-sample"><rect x="32" y="32" width="16" height="16"/></clipPath>
+    <clipPath id="narrow-sample"><rect x="112" y="32" width="16" height="16"/></clipPath>
+  </defs>
+  <g clip-path="url(#wide-sample)">
+    <g transform="translate(8 8) scale(34359738368 2.4651903288156619e-32)">
+      <g transform="scale(1 1)">
+        <rect width="1.862645149230957e-09" height="2.5961484292674138e+33" fill="lime"
+              style="mask-image:radial-gradient(ellipse 9.3132257461547852e-10px 1.2980742146337069e+33px,
+                         white 100%,transparent 100%);mask-repeat:no-repeat"/>
+      </g>
+    </g>
+  </g>
+  <g clip-path="url(#narrow-sample)">
+    <g transform="translate(88 8) scale(2.9802322387695312e-08 3.6893488147419103e+19)">
+      <g transform="scale(1 3.6893488147419103e+19)">
+        <rect width="2147483648" height="4.70197740328915e-38" fill="lime"
+              style="mask-image:radial-gradient(ellipse 1073741824px 2.350988701644575e-38px,
+                         white 100%,transparent 100%);mask-repeat:no-repeat"/>
+      </g>
+    </g>
+  </g>
+</svg>

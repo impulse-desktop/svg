@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="32">
+  <defs>
+    <filter id="invalid-token" filterUnits="userSpaceOnUse"
+            x="8" y="8" width="16" height="16"
+            color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="bad"/>
+      <feColorMatrix values="0 0 0 0 0
+                             0 0 0 0 1
+                             0 0 0 0 0
+                             0 0 0 2 0"/>
+    </filter>
+    <filter id="invalid-arity" filterUnits="userSpaceOnUse"
+            x="40" y="8" width="16" height="16"
+            color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0 0 0"/>
+      <feColorMatrix values="0 0 0 0 0
+                             0 0 0 0 1
+                             0 0 0 0 0
+                             0 0 0 2 0"/>
+    </filter>
+  </defs>
+  <rect x="8" y="8" width="16" height="16" filter="url(#invalid-token)"/>
+  <rect x="40" y="8" width="16" height="16" filter="url(#invalid-arity)"/>
+</svg>

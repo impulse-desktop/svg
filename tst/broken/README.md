@@ -233,6 +233,9 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `css-import-url-arguments.svg` | The invalid two-string URL makes the import invalid, so the later lime layer wins. | The 256-pixel square turns red. | `importLayer` accepts any url() function token without validating its arguments before registering the layer. |
 | `css-import-layer-conditions.svg` | Imports whose media conditions are false do not register their layers; both later lime layers win. | Both squares turn red, 512 wrong pixels. | `importLayer` registers layers without examining the import conditions after the layer argument. |
 
+| `css-radial-ellipse-aspect-range.svg` | Both finite ellipse masks become 64px circles under their transforms and retain their central green squares. | Both squares disappear, 512 missing pixels. | `cssGradientPaint` forms ry/rx in float; the zero or infinite aspect scale makes inversion fail and selects the transparent last-stop fallback. |
+| `turbulence-invalid-frequency.svg` | Invalid frequency syntax takes the initial zero frequency; fractal noise has alpha 1/2 and the following matrix produces opaque lime. | Both squares disappear, 512 missing pixels. | `filterTurbulence` returns on a failed numberPair parse instead of continuing with its initialized zero frequencies. |
+
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
 Font-relative geometry follows [CSS font-relative units](../../dev/spec/css-values-4.md#font-relative-lengths),
@@ -2441,3 +2444,48 @@ unknown features or invalid query values. D15's deliberate lack of
 stylesheet fetching is preserved: no imported declarations are needed.
 The URL-arguments and conditional-layer tests exercise independent checks;
 correcting one does not remove the other's failure.
+
+The CSS radial ellipse aspect-range case follows
+[explicit ellipse radii](../../dev/spec/css-images-3.md#radial-gradients)
+and [late intermediate range checking](../../dev/spec/svg2/types.md#RangeClamping).
+The first ellipse has rx=2^-30 and ry=2^110; its scale is (2^35,2^-105).
+The second has rx=2^30 and ry=2^-125; its scale is (2^-25,2^130), with the
+large Y scale composed from two individually normal 2^65 factors. Every
+nonzero authored number is a normal finite float. In either case the two
+used radii are exactly 32px and the box is 64x64. Each sampled 16px square
+is centered in its circle and lies strictly inside: its farthest point is
+8*sqrt(2)<32 from the center, where the mask is solid white. The
+implementation normalizes the ellipse by ry/rx before composing the
+transform; ratios 2^140 and 2^-155 become infinity and zero in float,
+although both full paint maps and their inverses have finite double
+coefficients. A debug render confirms the correct double ratios
+1.3937965749081639e42 and 2.1895288505075267e-47, but the constructed
+matrices contain infinity/NaN and a zero vertical scale respectively.
+Both enter flatGradient, which takes the transparent last stop.
+Reducing only the first Y radius exponent to 80 and the second to -90,
+with matching heights and compensating Y scales, gives the exact green
+reference while retaining both original X radii and gradient sampling
+ranges. Normalizing both radii to 1 with scale 32, or replacing each mask
+by constant white, also matches exactly. Only two small rectangle masks
+are rasterized; no work budget is exhausted. No natural image dimensions,
+object fitting or intrinsic aspect ratios are involved: this division is
+in CSS gradient ellipse construction. Both radii are nonzero, distinct
+from the zero-radius percentage-stop case; the fallback occurs before
+radialT, separate from the radial quadratic range case.
+
+The turbulence frequency case follows
+[baseFrequency's grammar and initial value](../../dev/spec/filter-effects-1.md#element-attrdef-feturbulence-basefrequency)
+and [SVG attribute parsing](../../dev/spec/svg2/types.md#syntax).
+The attribute takes one or two numbers; neither bad nor three zeros is
+valid. As a non-presentation attribute it takes its initial value 0, not
+a discarded primitive. At frequency zero the noise is evaluated at a
+lattice origin, whose gradient-dot-distance terms are all zero. The
+fractal mapping gives alpha (0+1)/2=1/2, independently of the seed.
+The following matrix sets green to 1 and doubles alpha, producing the
+literal opaque lime reference. Replacing the invalid values by 0 and
+0 0, omitting both attributes, or replacing each noise primitive by a
+half-opaque white flood all matches exactly in ours and resvg. Resvg also
+matches the original's expected result exactly. A debug render confirms both syntax failures return with the already
+initialized fx=fy=0. They take the same early return and share one fixture. This does not exercise
+integer rounding, seed range, bounding-box coordinates or existing
+lighting/convolution defaulting branches.
