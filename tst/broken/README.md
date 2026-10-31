@@ -212,6 +212,8 @@ Confirmed against `8058ab0ee` at the sizes declared in the SVGs:
 | `xml-chardata-cdata-close.svg` | The raw CDATA close delimiter in ordinary character data makes the image invalid. | The invalid resource draws all 256 green pixels. | The ordinary-data loop in `parseContent` stops at less-than or ampersand, without rejecting a raw CDATA close delimiter. |
 | `cubic-bbox-root-cancellation.svg` | The cubic's negative minimum puts the clip's right edge before x=28, leaving an empty drawing. | A 4x16 green rectangle appears, 64 extra pixels. | `cubicExtremes` evaluates the small derivative root with a subtractive quadratic formula; subtracting equal rounded terms gives negative zero and drops the curve's minimum. |
 | `bbox-degenerate-basic-shapes.svg` | Each zero-size basic shape still contributes its position to the group's box, so the half-box clip keeps all three green squares. | The right half of each square disappears, 384 missing pixels. | `elementExtent` uses `buildShape`'s paintability check for measurement; its early returns for zero rectangle sides and circle/ellipse radii discard their geometric boxes. |
+| `clip-union-subpixel-coverage.svg` | The two complementary stripe paths unite into one complete square silhouette. | All 256 pixels retain alpha 128 instead of 255. | `accumulateShape` combines separately rasterized clip children with maximum per-pixel coverage, losing the disjoint halves' union inside every pixel. |
+| `filter-offscreen-tile-input.svg` | The finite flood tile at x=128 repeats into the visible 16px square. | All 256 expected pixels disappear. | `filterOverflow` caps the intermediate frame at three canvas widths even when filterReach reports unbounded dependence for feTile; the source tile is discarded before repetition. |
 
 The clipping expectations follow [CSS Masking's clipping model](../../dev/spec/css-masking-1.md#ClipPathElement)
 and [SVG conditional processing](../../dev/spec/svg2/struct.md#ConditionalProcessing).
@@ -2125,6 +2127,42 @@ oracle for this case. The existing bbox-geometry unit's zero-size children
 are paths, which already retain their boxes. No resource is unresolved,
 so D37's use-reference choice is unrelated. This tests zero-size basic
 shape measurement independently of curve extrema and use-instance boxes.
+
+The union follows [the logical OR of clip-child silhouettes](../../dev/spec/css-masking-1.md#ClipPathElement).
+For every integer k from 8 to 23, one path covers [k,k+.5] and the
+other [k+.5,k+1], both over y=8..24. Their combined silhouette is the
+entire 16x16 square, with no interior boundary or hole. Each child alone
+covers half of every pixel; taking the maximum of those two half
+coverages cannot recover their disjoint union. Concatenating the same
+subpaths into a single path matches the literal square exactly.
+Replacing the two paths by one rectangular clip also matches exactly.
+Using alternating one-pixel stripes instead gives a third exact control
+while retaining two children and the same outer silhouette. Resvg passes
+all controls but gives alpha 191 for the original, another approximation
+rather than an independent oracle. No nested clip, use instance, basic
+shape function, stroke or conditional processing is involved. There are
+only two children and 64 nonhorizontal edges, with no exhausted work
+limit. This tests clip-child union after coverage integration independently
+of omitted child properties and source geometry.
+
+The tile follows [feTile's input-origin and repetition rules](../../dev/spec/filter-effects-1.md#elementdef-fetile),
+[primitive input and output subregions](../../dev/spec/filter-effects-1.md#FilterPrimitiveSubRegion)
+and D28's exact reference period. The 1x16 opaque lime input lies at
+(128,8), fully inside the filter region (0,0)-(160,32). Integer copies
+of this constant tile cover the complete output subregion (8,8)-(24,24).
+Moving the tile to x=80 matches exactly while keeping it outside the
+32px viewport. Increasing only the root width to 64 gives another exact
+control at the original tile position. Replacing the final feTile by
+an opaque lime flood of the same output subregion is a third exact
+control with the original canvas and filter region. Resvg shares the
+original failure but passes all three controls. The debugger records
+reach=-1 and the finite region's crop to (0,0)-(96,32), with over 67 MB
+of edge allowance and over 524,000 node visits still available. The full
+160x32 region occupies only 5120 pixels, below the fixed layer's own
+25*32*32=25600-pixel area limit. Only 16 input pixels and 256 output
+pixels need painting. This tests loss of a finite input needed by feTile
+at the outer frame crop independently of per-primitive convolution reach,
+infinite paint storage and fractional-period interpolation.
 
 Group additional manifestations of an existing cause into its existing
 case instead of adding another top-level failure for the same cause.
